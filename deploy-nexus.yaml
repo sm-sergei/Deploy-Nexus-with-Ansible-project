@@ -16,6 +16,17 @@
   hosts: ubuntu
   become: yes
   tasks:
-   - name: Download 
+   - name: Download Nexus
+     get_url: 
+       url: https://download.sonatype.com/nexus/3/latest-unix.tar.gz
+       dest: /opt
+     register: download_result
+   - name: Unpack Nexus tar-archive
+     unarchive:
+       src: "{{ download_result.dest }}"
+       dest: /opt/
+       remote_src: yes 
+
+ 
 
   
