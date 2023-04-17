@@ -81,3 +81,18 @@
        line: run_as_user="nexus"
    - name: Start Nexus
      command: /opt/nexus/bin/nexus start
+
+- name: Verify nexus running
+  hosts: ubuntu
+  tasks:
+   - name: Check nexus running with ps
+     shell: ps aux | grep nexus
+     register: nexus_status
+   - debug: msg={{ nexus_status.stdout_lines }}
+   - name: Waiting one minute
+     pause:
+       minutes: 1
+   - name: Check nexus running with netstat
+     shell: netstat -tulnp
+     register: nexus_status
+   - debug: msg={{ nexus_status.stdout_lines  }}
